@@ -10,14 +10,20 @@ const categories = [
 ];
 
 const Categories = () => {
+  const [active, setActive] = React.useState(0);
+
   return (
     <div className="categories">
       <ul>
-        {
-            categories.map((item, i) => (
-                <li key={i} >{item}</li>
-            ))
-        }
+        {categories.map((item, i) => (
+          <li
+            onClick={() => setActive(i)}
+            className={active === i ? "active" : ""}
+            key={i}
+          >
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );
