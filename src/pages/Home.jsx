@@ -15,18 +15,18 @@ const Home = () => {
   const { categoryId, sort, currentPage, setFilters } = useSelector(
     (state) => state.filterSlice
   );
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isSearch = useRef(false);
-  const isMounted = useRef(false);
+  const dispatch = useDispatch();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const { searchValue } = React.useContext(SearchContext);
 
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
-  };
+  const onChangeCategory = React.useCallback((idx) => {
+    dispatch(setCategoryId(idx));
+  }, []);
 
   const fetchPizzas = () => {
     setIsLoading(true);
@@ -48,6 +48,21 @@ const Home = () => {
     window.scrollTo(0, 0);
   };
 
+  // Если изменили параметры и был первый рендер
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sortProperty: sort.sortProperty,
+        categoryId,
+        currentPage,
+      });
+
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true;
+  }, [categoryId, sort.sortProperty, currentPage]);
+
+  // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
@@ -62,33 +77,20 @@ const Home = () => {
           sort,
         })
       );
-
       isSearch.current = true;
     }
   }, []);
 
+  // Если был первый рендер, то запрашиваем пиццы
   React.useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (!isSearch) {
+    if (!isSearch.current) {
       fetchPizzas();
     }
 
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
-
-  React.useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        sortProperty: sort.sortProperty,
-        categoryId,
-        currentPage,
-      });
-
-      navigate(`?${queryString}`);
-    }
-    isMounted.current = true;
-  }, [categoryId, sort.sortProperty, currentPage]);
 
   return (
     <div className="container">

@@ -7,8 +7,8 @@ import { setCurrentPage } from "../redux/slices/filterSlice";
 const Pagination = ({ currentPage }) => {
   const dispatch = useDispatch();
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page) => {
+    dispatch(setCurrentPage(page));
   };
 
   return (
