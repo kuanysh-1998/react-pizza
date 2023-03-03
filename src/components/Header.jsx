@@ -2,23 +2,28 @@ import React from "react";
 import logoSvg from "../assets/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
 import Search from "./Search/Search";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const { items, totalPrice } = useSelector((state) => state.cartSlice);
   return (
     <div className="header">
       <div className="container">
-        <Link to="/" className="header__logo">
-          <img width="38" src={logoSvg} alt="Pizza logo" />
-          <div>
-            <h1>React Pizza</h1>
-            <p>самая вкусная пицца во вселенной</p>
+        <Link to="/">
+          <div className="header__logo">
+            <img width="38" src={logoSvg} alt="Pizza logo" />
+            <div>
+              <h1>React Pizza</h1>
+              <p>самая вкусная пицца во вселенной</p>
+            </div>
           </div>
         </Link>
 
         <Search />
 
-        <Link to="/cart" className="header__cart">
-          <div className="button button--cart">
+        <div className="header__cart">
+          <Link to="/cart" className="button button--cart">
+            <span>{totalPrice}</span>
             <div className="button__delimiter"></div>
             <svg
               width="18"
@@ -49,8 +54,9 @@ const Header = () => {
                 strokeLinejoin="round"
               />
             </svg>
-          </div>
-        </Link>
+            <span>{items.length}</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
