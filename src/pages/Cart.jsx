@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { clearItems } from "../components/redux/slices/cartSlice";
+import { clearItems } from "../redux/slices/cartSlice";
 
 const Cart = () => {
   const { items, totalPrice } = useSelector((state) => state.cartSlice);
@@ -83,6 +83,9 @@ const Cart = () => {
 
             <span onClick={() => dispatch(clearItems())} >Очистить корзину</span>
           </div>
+        </div>
+        <div className="content__items">
+          
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">

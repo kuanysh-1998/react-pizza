@@ -7,7 +7,7 @@ import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
 import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId } from "../components/redux/slices/filterSlice";
+import { setCategoryId } from "../redux/slices/filterSlice";
 import qs from "qs";
 import { useNavigate, useParams } from "react-router-dom";
 
