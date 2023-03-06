@@ -28,23 +28,19 @@ const Home = () => {
     dispatch(setCategoryId(idx));
   }, []);
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    axios
-      .get(
-        `https://63f9de89473885d837d40609.mockapi.io/items?page=${currentPage}&limit=4&${
-          categoryId > 0 ? `category=${categoryId}` : ""
-        }&sortBy=${sortBy}&order=${order}${search}`
-      )
-      .then((response) => {
-        setItems(response.data);
-        setIsLoading(false);
-      });
-
+    const response = await axios.get(
+      `https://63f9de89473885d837d40609.mockapi.io/items?page=${currentPage}&limit=4&${
+        categoryId > 0 ? `category=${categoryId}` : ""
+      }&sortBy=${sortBy}&order=${order}${search}`
+    );
+    setItems(response.data);
+    setIsLoading(false);
     window.scrollTo(0, 0);
   };
 
