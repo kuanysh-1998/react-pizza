@@ -4,15 +4,14 @@ import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Sort, { sortList } from "../components/Sort";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
-import { SearchContext } from "../App";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setSearchValue } from "../redux/slices/filterSlice";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
-  const { categoryId, sort, currentPage, setFilters } = useSelector(
+  const { categoryId, sort, currentPage, setFilters, searchValue } = useSelector(
     (state) => state.filterSlice
   );
 
@@ -21,10 +20,9 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
-  const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { searchValue } = React.useContext(SearchContext);
+
 
   const onChangeCategory = React.useCallback((idx) => {
     dispatch(setCategoryId(idx));
@@ -77,7 +75,6 @@ const Home = () => {
           sort,
         })
       );
-      isSearch.current = true;
     }
   }, []);
 
@@ -87,7 +84,6 @@ const Home = () => {
 
     getPizzas();
 
-    isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   return (

@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const fetchPizzas = createAsyncThunk(
   "pizza/fetchPizzasStatus",
-  async ({ order, sortBy, search, currentPage, categoryId }) => {
+  async ({ order, sortBy, search, currentPage, categoryId }, thunkApi) => {
     const { data } = await axios.get(
       `https://63f9de89473885d837d40609.mockapi.io/items?page=${currentPage}&limit=4&${
         categoryId > 0 ? `category=${categoryId}` : ""
