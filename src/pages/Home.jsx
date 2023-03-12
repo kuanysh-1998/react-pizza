@@ -5,9 +5,9 @@ import Sort, { sortList } from "../components/Sort";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setSearchValue } from "../redux/slices/filterSlice";
+import { setCategoryId} from "../redux/slices/filterSlice";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 const Home = () => {
@@ -107,7 +107,7 @@ const Home = () => {
         <div className="content__items">
           {status === "loading"
             ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-            : items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
+            : items.map((pizza) => <Link key={pizza.id} to={`/pizza/${pizza.id}`}> <PizzaBlock  {...pizza} /> </Link> )}
         </div>
       )}
 
