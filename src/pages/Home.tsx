@@ -10,7 +10,7 @@ import qs from "qs";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
-const Home = () => {
+const Home: React.FC = () => {
   const { categoryId, sort, currentPage, setFilters, searchValue } = useSelector(
     (state) => state.filterSlice
   );
@@ -24,7 +24,7 @@ const Home = () => {
 
 
 
-  const onChangeCategory = React.useCallback((idx) => {
+  const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
   }, []);
 
@@ -34,6 +34,7 @@ const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : "";
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         order,
         sortBy,

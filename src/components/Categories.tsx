@@ -9,7 +9,15 @@ const categories = [
   "Закрытые",
 ];
 
-const Categories: React.FC = ({ categoryId, setCategoryId }) => {
+type CategoriesProps = {
+  categoryId: number;
+  setCategoryId: (index: number) => void;
+};
+
+const Categories: React.FC<CategoriesProps> = ({
+  categoryId,
+  setCategoryId,
+}) => {
   return (
     <div className="categories">
       <ul>
