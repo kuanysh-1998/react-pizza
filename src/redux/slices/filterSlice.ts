@@ -1,6 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
-const initialState = {
+type Sort = {
+  name: string;
+  sortProperty: "rating" | "price" | "title" | "-rating" | "-price" | "-title";
+};
+
+export interface filterSliceState {
+  searchValue: string;
+  categoryId: number;
+  currentPage: number;
+  sort: Sort;
+}
+
+const initialState: filterSliceState = {
   searchValue: "",
   categoryId: 0,
   sort: {
@@ -14,27 +27,35 @@ export const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    setCategoryId(state, action) {
+    setCategoryId(state, action: PayloadAction<number>) {
       state.categoryId = action.payload;
     },
-    setSortType(state, action) {
+    setSortType(state, action: PayloadAction<Sort>) {
       state.sort = action.payload;
     },
-    setCurrentPage(state, action) {
+    setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
-    setFilters(state, action) {
-      state.currentPage = Number(action.state.currentPage);
-      state.sort = action.state.sort;
-      state.categoryId = Number(action.state.categoryId);
+    setFilters(state, action: PayloadAction<filterSliceState>) {
+      state.currentPage = Number(action.payload.currentPage);
+      state.sort = action.payload.sort;
+      state.categoryId = Number(action.payload.categoryId);
     },
-    setSearchValue(state, action) {
+    setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
   },
 });
 
-export const { setCategoryId, setSortType, setCurrentPage, setFilters, setSearchValue } =
-  filterSlice.actions;
+export const SelectFilter = (state: RootState) => state.filterSlice;
+export const SelectSort = (state: RootState) => state.filterSlice.sort;
+
+export const {
+  setCategoryId,
+  setSortType,
+  setCurrentPage,
+  setFilters,
+  setSearchValue,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;
