@@ -5,23 +5,30 @@ import Sort, { sortList } from "../components/Sort";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
 import { useSelector } from "react-redux";
-import { SelectFilter, setCategoryId, setFilters} from "../redux/slices/filterSlice";
+import {
+  SelectFilter,
+  setCategoryId,
+  setFilters,
+} from "../redux/slices/filterSlice";
 import qs from "qs";
-import { Link, useNavigate } from "react-router-dom";
-import { fetchPizzas, SelectPizzaData } from "../redux/slices/pizzasSlice";
+import {useNavigate } from "react-router-dom";
+import {
+  fetchPizzas,
+  SearchPizzaParams,
+  SelectPizzaData,
+} from "../redux/slices/pizzasSlice";
 import { useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
-  const { categoryId, sort, currentPage, searchValue } = useSelector(SelectFilter);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(SelectFilter);
 
   const { items, status } = useSelector(SelectPizzaData);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  
+
   const isMounted = React.useRef(false);
-
-
 
   const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
@@ -62,16 +69,18 @@ const Home: React.FC = () => {
   // Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as SearchPizzaParams;
 
-      const sort = sortList.find(
-        (obj) => obj.sortProperty === params.sortProperty
-      );
+      const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
 
       dispatch(
         setFilters({
-          ...params,
-          sort,
+          searchValue: params.search,
+          categoryId: Number(params.categoryId),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortList[0],
         })
       );
     }
@@ -82,7 +91,6 @@ const Home: React.FC = () => {
     window.scrollTo(0, 0);
 
     getPizzas();
-
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   return (
@@ -106,7 +114,7 @@ const Home: React.FC = () => {
         <div className="content__items">
           {status === "loading"
             ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-            : items.map((pizza) => <Link key={pizza.id} to={`/pizza/${pizza.id}`}> <PizzaBlock  {...pizza} /> </Link> )}
+            : items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)}
         </div>
       )}
 

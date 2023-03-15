@@ -1,24 +1,26 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { SelectFilter, setSortType } from "../redux/slices/filterSlice";
+import {
+  SelectFilter,
+  setSortType,
+  sortPropertyEnum,
+} from "../redux/slices/filterSlice";
 
 type SortItem = {
   name: string;
-  sortProperty: string;
+  sortProperty: sortPropertyEnum;
 };
 
-
-
 export const sortList: SortItem[] = [
-  { name: "популярности (DESC)", sortProperty: "rating" },
-  { name: "популярности (ASC)", sortProperty: "-rating" },
-  { name: "цене (DESC)", sortProperty: "price" },
-  { name: "цене (ASC)", sortProperty: "-price" },
-  { name: "алфавиту (DESC)", sortProperty: "title" },
-  { name: "алфавиту (ASC)", sortProperty: "-title" },
+  { name: "популярности (DESC)", sortProperty: sortPropertyEnum.RATING_DESC },
+  { name: "популярности (ASC)", sortProperty: sortPropertyEnum.RATING_ASC },
+  { name: "цене (DESC)", sortProperty: sortPropertyEnum.PRICE_DESC },
+  { name: "цене (ASC)", sortProperty: sortPropertyEnum.PRICE_ASC },
+  { name: "алфавиту (DESC)", sortProperty: sortPropertyEnum.TITLE_DESC },
+  { name: "алфавиту (ASC)", sortProperty: sortPropertyEnum.TITLE_ASC },
 ];
 
-const Sort: React.FC = () => {
+const SortPopup: React.FC = () => {
   const dispatch = useDispatch();
   const { sort } = useSelector(SelectFilter);
   const sortRef = React.useRef<HTMLDivElement>(null);
@@ -31,7 +33,7 @@ const Sort: React.FC = () => {
 
   React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if ( sortRef.current && !e.composedPath().includes(sortRef.current)) {
+      if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
     };
@@ -81,4 +83,4 @@ const Sort: React.FC = () => {
   );
 };
 
-export default Sort;
+export default SortPopup;

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 
-type SearchPizzaParams = {
+export type SearchPizzaParams = {
   order: string;
   sortBy: string;
   search: string;
@@ -52,7 +52,7 @@ export const pizzasSlice = createSlice({
   name: "pizza",
   initialState,
   reducers: {
-    setItems(state, action: PayloadAction<Items[]>) {
+    setItems(state, action: PayloadAction<Pizza[]>) {
       state.items = action.payload;
     },
   },
@@ -61,7 +61,7 @@ export const pizzasSlice = createSlice({
       state.status = "loading";
       state.items = [];
     });
-    builder.addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<Items[]>) => {
+    builder.addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<Pizza[]>) => {
       state.items = action.payload;
       state.status = "success";
     });

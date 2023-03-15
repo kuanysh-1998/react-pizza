@@ -6,9 +6,9 @@ export type CartItem = {
   imageUrl: string;
   title: string;
   type: string;
-  count: number;
   price: number;
   size: number;
+  count: number;
 };
 
 interface CartSliceState {
@@ -59,9 +59,13 @@ export const cartSlice = createSlice({
 });
 
 export const SelectCart = (state: RootState) => state.cartSlice;
-export const SelectCartItemById = (id: string) => (state: RootState) => {
+
+// export const selectCartItemById = (id: string) => (state: RootState) => {
+//   state.cartSlice.items.find((obj) => obj.id === id);
+// };
+
+export const selectCartItemById = (id: string) => (state: RootState) =>
   state.cartSlice.items.find((obj) => obj.id === id);
-};
 
 export const { addItem, removeItem, clearItems, minusItem } = cartSlice.actions;
 
