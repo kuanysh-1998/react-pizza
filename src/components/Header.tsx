@@ -12,7 +12,16 @@ const Header: React.FC = () => {
     (sum: number, item: any) => sum + item.count,
     0
   );
-  const [cart, setCartShow] = React.useState(true);
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const jsonStr = JSON.stringify(items);
+      localStorage.setItem("cart", jsonStr);
+    }
+
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
@@ -29,7 +38,7 @@ const Header: React.FC = () => {
 
         {location.pathname !== "/cart" && <Search />}
 
-        <div className="header__cart" onClick={() => setCartShow(false)}>
+        <div className="header__cart">
           {location.pathname !== "/cart" && (
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice}</span>
