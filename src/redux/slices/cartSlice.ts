@@ -60,9 +60,6 @@ export const cartSlice = createSlice({
 
 export const SelectCart = (state: RootState) => state.cartSlice;
 
-// export const selectCartItemById = (id: string) => (state: RootState) => {
-//   state.cartSlice.items.find((obj) => obj.id === id);
-// };
 
 export const selectCartItemById = (id: string) => (state: RootState) =>
   state.cartSlice.items.find((obj) => obj.id === id);

@@ -97,7 +97,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories categoryId={categoryId} setCategoryId={onChangeCategory} />
-        <Sort />
+        <Sort sort={sort} />
       </div>
 
       <h2 className="content__title">Все пиццы</h2>

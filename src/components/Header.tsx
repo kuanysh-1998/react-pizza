@@ -7,8 +7,11 @@ import { SelectCart } from "../redux/slices/cartSlice";
 
 const Header: React.FC = () => {
   const location = useLocation();
-  const { items, totalPrice } = useSelector( SelectCart );
-  const totalCount = items.reduce((sum:number, item: any) => sum + item.count, 0);
+  const { items, totalPrice } = useSelector(SelectCart);
+  const totalCount = items.reduce(
+    (sum: number, item: any) => sum + item.count,
+    0
+  );
   const [cart, setCartShow] = React.useState(true);
 
   return (
@@ -24,7 +27,7 @@ const Header: React.FC = () => {
           </div>
         </Link>
 
-        <Search />
+        {location.pathname !== "/cart" && <Search />}
 
         <div className="header__cart" onClick={() => setCartShow(false)}>
           {location.pathname !== "/cart" && (

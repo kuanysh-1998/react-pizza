@@ -14,25 +14,24 @@ type CategoriesProps = {
   setCategoryId: (index: number) => void;
 };
 
-const Categories: React.FC<CategoriesProps> = ({
-  categoryId,
-  setCategoryId,
-}) => {
-  return (
-    <div className="categories">
-      <ul>
-        {categories.map((item, index) => (
-          <li
-            onClick={() => setCategoryId(index)}
-            className={categoryId === index ? "active" : ""}
-            key={index}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+const Categories: React.FC<CategoriesProps> = React.memo(
+  ({ categoryId, setCategoryId }) => {
+    return (
+      <div className="categories">
+        <ul>
+          {categories.map((item, index) => (
+            <li
+              onClick={() => setCategoryId(index)}
+              className={categoryId === index ? "active" : ""}
+              key={index}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+);
 
 export default Categories;
